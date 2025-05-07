@@ -17,6 +17,13 @@ class CartDao extends BaseDao {
         return $stmt->fetchAll();
     }
 
+    public function getCartByProductId($product_id) {
+        $stmt = $this->connection->prepare("SELECT * FROM cart WHERE product_id = :product_id");
+        $stmt->bindParam(':product_id', $product_id);
+        $stmt->execute();
+        return $stmt->fetchAll();
+    }
+
     public function addToCart($data) {
         return $this->insert($data);
     }
