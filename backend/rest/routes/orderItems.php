@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../data/Roles.php';
 /**
  * @OA\Get(
  *     path="/order_items",
@@ -7,8 +8,9 @@
  *     @OA\Response(response=200, description="List of order items")
  * )
  */
-Flight::route('GET /order_items', function () {
-    Flight::json(Flight::get('orderitems_service')->getAll());
+Flight::route('GET /order-items', function () {
+    Flight::auth_middleware()->authorizeRole(Roles::ADMIN);
+    Flight::json(Flight::orderItemService()->get_all());
 });
 
 /**
@@ -27,13 +29,23 @@ Flight::route('GET /order_items/@id', function ($id) {
 /**
  * @OA\Post(
  *     path="/order_items",
+ *     summary="Add a new order item.",
  *     tags={"OrderItems"},
- *     summary="Add order item",
  *     @OA\RequestBody(
  *         required=true,
- *         @OA\JsonContent(ref="#/components/schemas/OrderItem")
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 required={"order_id", "product_id", "quantity", "subtotal"},
+ *                 @OA\Property(property="order_id", type="integer", example=1),
+ *                 @OA\Property(property="product_id", type="integer", example=2),
+ *                 @OA\Property(property="quantity", type="integer", example=3),
+ *                 @OA\Property(property="subtotal", type="number", format="float", example=149.97)
+ *             )
+ *         )
  *     ),
- *     @OA\Response(response=200, description="Created")
+ *     @OA\Response(response=200, description="Order item has been added."),
+ *     @OA\Response(response=500, description="Internal server error.")
  * )
  */
 Flight::route('POST /order_items', function () {
