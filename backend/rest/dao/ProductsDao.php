@@ -1,7 +1,8 @@
 <?php
 
-require_once "BaseDao.php";
-class ProductDao extends BaseDao {
+require_once __DIR__ . '/BaseDao.php';
+
+class ProductsDao extends BaseDao {
     public function __construct() {
         parent::__construct("products");
     }

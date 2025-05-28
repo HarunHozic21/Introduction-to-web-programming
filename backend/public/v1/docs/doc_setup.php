@@ -1,29 +1,30 @@
 <?php
 
 /**
- * @OA\OpenApi(
  * @OA\Info(
- *   title="API",
- *   description="Web programming API",
- *   version="1.0.0",
- *   @OA\Contact(
- *     email="web2001programming@gmail.com",
- *     name="Web Programming"
- *   )
- * ),
- *  @OA\Server(
- *     url=LOCALSERVER,
- *     description="API server"
- * ),
- * @OA\Server(
- *     url=PRODSERVER,
- *     description="API server"
- * ),
- * @OA\SecurityScheme(
- *     securityScheme="ApiKey",
- *     type="apiKey",
- *     in="header",
- *     name="Authentication"
+ *     title="API",
+ *     description="Sneaker Store API",
+ *     version="1.0",
+ *     @OA\Contact(
+ *         email="web2001programming@gmail.com",
+ *         name="Web Programming"
+ *     )
  * )
+ */
+
+/**
+ * @OA\Server(
+ *      url="http://localhost/project/Introduction-to-web-programming/backend/",
+ *      description="API server"
+ * )
+*/
+
+/**
+ * @OA\SecurityScheme(
+ *      securityScheme="bearerAuth",
+ *      type="http",
+ *      scheme="bearer",
+ *      bearerFormat="JWT",
+ *      description="Enter JWT Bearer token. Example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
  * )
  */

@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../dao/ProductDao.php';
+require_once __DIR__ . '/../dao/ProductsDao.php';
 
-class ProductService {
+class ProductsService{
     private $dao;
 
     public function __construct() {
-        $this->dao = new ProductDao();
+        $this->dao = new ProductsDao();
     }
 
     public function getAllAvailable() {

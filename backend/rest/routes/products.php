@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../data/Roles.php';
 /**
  * @OA\Get(
  *     path="/products",
@@ -43,13 +44,30 @@ Flight::route('GET /products/@id', function ($id) {
 /**
  * @OA\Post(
  *     path="/products",
+ *     summary="Add a new product.",
  *     tags={"Products"},
- *     summary="Create a new product",
- *     @OA\RequestBody(@OA\JsonContent()),
- *     @OA\Response(response=200, description="Created")
+ *     @OA\RequestBody(
+ *         required=true,
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 required={"name", "brand", "price", "stock"},
+ *                 @OA\Property(property="name", type="string", example="Air Max 90"),
+ *                 @OA\Property(property="brand", type="string", example="Nike"),
+ *                 @OA\Property(property="description", type="string", example="Classic sneakers"),
+ *                 @OA\Property(property="price", type="number", format="float", example=129.99),
+ *                 @OA\Property(property="stock", type="integer", example=50),
+ *                 @OA\Property(property="image_url", type="string", example="https://example.com/image.jpg")
+ *             )
+ *         )
+ *     ),
+ *     @OA\Response(response=200, description="Product has been added."),
+ *     @OA\Response(response=500, description="Internal server error.")
  * )
  */
+
 Flight::route('POST /products', function () {
+    Flight::auth_middleware()->authorizeRoles(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     try {
         $created = Flight::get('product_service')->create($data);
@@ -70,6 +88,7 @@ Flight::route('POST /products', function () {
  * )
  */
 Flight::route('PUT /products/@id', function ($id) {
+    Flight::auth_middleware()->authorizeRoles(Roles::ADMIN);
     $data = Flight::request()->data->getData();
     $updated = Flight::get('product_service')->update($id, $data);
     Flight::json(['updated' => $updated]);
@@ -84,6 +103,7 @@ Flight::route('PUT /products/@id', function ($id) {
  * )
  */
 Flight::route('DELETE /products/@id', function ($id) {
-    $deleted = Flight::get('product_service')->delete($id);
-    Flight::json(['deleted' => $deleted]);
+    Flight::auth_middleware()->authorizeRoles(Roles::ADMIN);
+    Flight::productService()->delete($id);
+    Flight::json(["message" => "Product deleted"]);
 });

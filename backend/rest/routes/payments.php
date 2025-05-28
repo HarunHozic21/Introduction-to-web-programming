@@ -1,4 +1,5 @@
 <?php
+require_once __DIR__ . '/../../data/Roles.php';
 /**
  * @OA\Get(
  *     path="/payments",
@@ -27,13 +28,23 @@ Flight::route('GET /payments/@id', function ($id) {
 /**
  * @OA\Post(
  *     path="/payments",
+ *     summary="Add a new payment.",
  *     tags={"Payments"},
- *     summary="Create a payment",
  *     @OA\RequestBody(
  *         required=true,
- *         @OA\JsonContent(ref="#/components/schemas/Payment")
+ *         @OA\MediaType(
+ *             mediaType="application/json",
+ *             @OA\Schema(
+ *                 required={"order_id", "user_id", "payment_method", "payment_status"},
+ *                 @OA\Property(property="order_id", type="integer", example=1),
+ *                 @OA\Property(property="user_id", type="integer", example=1),
+ *                 @OA\Property(property="payment_method", type="string", example="credit_card"),
+ *                 @OA\Property(property="payment_status", type="string", example="paid")
+ *             )
+ *         )
  *     ),
- *     @OA\Response(response=200, description="Payment created")
+ *     @OA\Response(response=200, description="Payment has been recorded."),
+ *     @OA\Response(response=500, description="Internal server error.")
  * )
  */
 Flight::route('POST /payments', function () {
