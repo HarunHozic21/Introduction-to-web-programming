@@ -18,11 +18,13 @@ class BaseDao{
             throw $e;
         }
     }
+    
     protected function query($query, $params){
         $stmt = $this->connection->prepare($query);
         $stmt->execute($params);
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+    
     protected function query_unique($query, $params){
         $results = $this->query($query, $params);
         return reset($results);
@@ -43,8 +45,30 @@ class BaseDao{
         $query .= ")";
         $stmt = $this->connection->prepare($query);
         $stmt->execute($entity);
-        $entity['id'] = $this->connection->lastInsertId();
+        
+        // Get the last inserted ID and add it to the entity with the appropriate key name
+        $lastInsertId = $this->connection->lastInsertId();
+        if ($lastInsertId) {
+            // Determine the primary key name based on table name
+            $primaryKey = $this->getPrimaryKeyName();
+            $entity[$primaryKey] = $lastInsertId;
+        }
+        
         return $entity;
+    }
+    
+    // Helper method to determine primary key name based on table name
+    protected function getPrimaryKeyName() {
+        switch($this->table_name) {
+            case 'products':
+                return 'product_id';
+            case 'users':
+                return 'user_id';
+            case 'orders':
+                return 'order_id';
+            default:
+                return 'id'; // fallback for tables that use 'id'
+        }
     }
     
     public function update($entity, $id, $id_column = "id"){
@@ -61,7 +85,8 @@ class BaseDao{
     }
 
     public function delete($id){
-        $stmt = $this->connection->prepare("DELETE FROM " . $this->table_name . " WHERE id = :id");
+        $primaryKey = $this->getPrimaryKeyName();
+        $stmt = $this->connection->prepare("DELETE FROM " . $this->table_name . " WHERE " . $primaryKey . " = :id");
         $stmt->bindValue(':id', $id);
         $stmt->execute();
     }
@@ -73,6 +98,7 @@ class BaseDao{
 
     //Method for getting entity by id from a database table
     public function getById($id){
-        return $this->query_unique("SELECT * FROM " . $this->table_name . " WHERE id=:id", ['id' => $id]);
+        $primaryKey = $this->getPrimaryKeyName();
+        return $this->query_unique("SELECT * FROM " . $this->table_name . " WHERE " . $primaryKey . "=:id", ['id' => $id]);
     }
 }

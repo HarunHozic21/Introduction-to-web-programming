@@ -14,7 +14,7 @@
 
 /**
  * @OA\Server(
- *      url="http://localhost/project/Introduction-to-web-programming/backend/",
+ *      url="https://localhost/project/Introduction-to-web-programming/backend/",
  *      description="API server"
  * )
 */

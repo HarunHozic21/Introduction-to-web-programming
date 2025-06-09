@@ -10,7 +10,7 @@ require_once __DIR__ . '/../../data/Roles.php';
  */
 Flight::route('GET /products', function () {
 
-    $products = Flight::get('product_service')->getAll();
+    $products = Flight::product_service()->getAll();
     Flight::json($products);
 });
 /**
@@ -23,7 +23,7 @@ Flight::route('GET /products', function () {
  */
 Flight::route('GET /products/available', function () {
 
-    $products = Flight::get('product_service')->getAllAvailable();
+    $products = Flight::product_service()->getAllAvailable();
     Flight::json($products);
 });
 /**
@@ -38,7 +38,7 @@ Flight::route('GET /products/available', function () {
  */
 Flight::route('GET /products/@id', function ($id) {
 
-    $product = Flight::get('product_service')->get($id);
+    $product = Flight::product_service()->get($id);
     $product ? Flight::json($product) : Flight::halt(404, 'Not found');
 });
 /**
@@ -67,10 +67,10 @@ Flight::route('GET /products/@id', function ($id) {
  */
 
 Flight::route('POST /products', function () {
-    Flight::auth_middleware()->authorizeRoles(Roles::ADMIN);
+    Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);    
     $data = Flight::request()->data->getData();
     try {
-        $created = Flight::get('product_service')->create($data);
+        $created = Flight::product_service()->create($data);
         Flight::json(['message' => 'Created', 'product' => $created]);
     } catch (Exception $e) {
         Flight::halt(400, $e->getMessage());
@@ -88,9 +88,9 @@ Flight::route('POST /products', function () {
  * )
  */
 Flight::route('PUT /products/@id', function ($id) {
-    Flight::auth_middleware()->authorizeRoles(Roles::ADMIN);
+    Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);    
     $data = Flight::request()->data->getData();
-    $updated = Flight::get('product_service')->update($id, $data);
+    $updated = Flight::product_service()->update($id, $data);
     Flight::json(['updated' => $updated]);
 });
 /**
@@ -103,7 +103,7 @@ Flight::route('PUT /products/@id', function ($id) {
  * )
  */
 Flight::route('DELETE /products/@id', function ($id) {
-    Flight::auth_middleware()->authorizeRoles(Roles::ADMIN);
-    Flight::productService()->delete($id);
+    Flight::auth_middleware()->authorizeRoles([Roles::ADMIN]);    
+    Flight::product_service()->delete($id);
     Flight::json(["message" => "Product deleted"]);
 });

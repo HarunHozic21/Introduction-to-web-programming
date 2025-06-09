@@ -8,23 +8,23 @@ class OrderService {
         $this->dao = new OrderDao();
     }
 
-    public function getAll() {
+    public function get_all() {
         return $this->dao->getAll();
     }
 
-    public function get($id) {
+    public function get_by_id($id) {
         return $this->dao->getById($id);
     }
 
-    public function getByUser($userId) {
+    public function get_by_user($userId) {
         return $this->dao->getOrdersByUserId($userId);
     }
-
-    public function getByStatus($status) {
+    
+    public function get_by_status($status) {
         return $this->dao->getOrdersByStatus($status);
     }
 
-    public function create($order) {
+    public function create_order($order) {
         return $this->dao->insert($order);
     }
 

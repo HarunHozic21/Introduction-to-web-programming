@@ -24,7 +24,7 @@ require_once __DIR__ . '/../../data/Roles.php';
 Flight::route('GET /cart', function (): void {
     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     $userId = Flight::auth_middleware()->getUserId();
-    Flight::json(Flight::cartService()->get_cart($userId));
+    Flight::json(Flight::cart_service()->get_cart($userId));
 });
 
 /**
@@ -55,7 +55,7 @@ Flight::route('GET /cart', function (): void {
  * )
  */
 Flight::route('GET /cart/user/@userId', function ($userId): void {
-    Flight::json(Flight::get('cart_service')->getCartByUser($userId));
+    Flight::json(Flight::cart_service()->getCartByUser($userId));
 });
 
 /**
@@ -80,7 +80,7 @@ Flight::route('GET /cart/user/@userId', function ($userId): void {
  */
 Flight::route('GET /cart/item/@userId/@productId', function ($userId, $productId): void {
     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
-    Flight::json(Flight::get('cart_service')->getItem($userId, $productId));
+    Flight::json(Flight::cart_service()->getItem($userId, $productId));
 });
 
 
@@ -109,7 +109,7 @@ Flight::route('POST /cart', function (): void {
     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
     $userId = Flight::auth_middleware()->getUserId();
     $data = Flight::request()->data->getData();
-    Flight::json(Flight::cartService()->add_to_cart($userId, $data));
+    Flight::json(Flight::cart_service()->add_to_cart($userId, $data));
 });
 
 /**
@@ -131,7 +131,7 @@ Flight::route('POST /cart', function (): void {
  * )
  */
 Flight::route('PUT /cart/item/@userId/@productId/@quantity', function ($userId, $productId, $quantity): void {
-    Flight::json(['updated' => Flight::get('cart_service')->updateQuantity($userId, $productId, $quantity)]);
+    Flight::json(['updated' => Flight::cart_service()->updateQuantity($userId, $productId, $quantity)]);
 });
 
 /**
@@ -152,6 +152,6 @@ Flight::route('PUT /cart/item/@userId/@productId/@quantity', function ($userId, 
  */
 Flight::route('DELETE /cart/@id', function ($id) {
     Flight::auth_middleware()->authorizeRoles([Roles::USER, Roles::ADMIN]);
-    Flight::cartService()->delete_from_cart($id);
+    Flight::cart_service()->delete_from_cart($id);
     Flight::json(["message" => "Item removed from cart"]);
 });

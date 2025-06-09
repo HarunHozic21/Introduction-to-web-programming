@@ -34,10 +34,10 @@ use Firebase\JWT\Key;
 
         public function authorizeRoles($roles) {
             $user = Flight::get('user');
-            if (!$user || !isset($user -> user_type)) {
-                Flight::halt(403, 'Forbidden: user not found or missing role!');
+            if (!$user || !isset($user -> role)) {
+                Flight::halt(403, 'Forbidden: user not found or missing role!' . $user->role );
             }
-            if (!in_array($user -> user_type, $roles)) {
+            if (!in_array($user -> role, $roles)) {
                 Flight::halt(403, 'Forbidden: role is not allowed!');
             }
         }
