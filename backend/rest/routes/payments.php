@@ -9,7 +9,7 @@ require_once __DIR__ . '/../../data/Roles.php';
  * )
  */
  Flight::route('GET /payments', function () {
-    Flight::json(Flight::get('payment_service')->getAll());
+    Flight::json(Flight::payment_service()->getAll());
 });
 
 /**
@@ -48,7 +48,7 @@ Flight::route('GET /payments/@id', function ($id) {
  * )
  */
 Flight::route('POST /payments', function () {
-    Flight::json(Flight::get('payment_service')->add(Flight::request()->data->getData()));
+    Flight::json(Flight::payment_service()->add(Flight::request()->data->getData()));
 });
 
 /**
@@ -65,7 +65,7 @@ Flight::route('POST /payments', function () {
  * )
  */
 Flight::route('PUT /payments/@id', function ($id) {
-    Flight::json(Flight::get('payment_service')->update($id, Flight::request()->data->getData()));
+    Flight::json(Flight::payment_service()->update($id, Flight::request()->data->getData()));
 });
 
 /**
@@ -78,7 +78,7 @@ Flight::route('PUT /payments/@id', function ($id) {
  * )
  */
 Flight::route('DELETE /payments/@id', function ($id) {
-    Flight::json(Flight::get('payment_service')->delete($id));
+    Flight::json(Flight::payment_service()->delete($id));
 });
 
 /**

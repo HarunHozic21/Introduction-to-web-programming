@@ -12,7 +12,7 @@ class ProductsDao extends BaseDao {
     }
  
     public function getProductById($id) {
-        return $this->getById($id); 
+        return $this->query_unique("SELECT * FROM products WHERE product_id = :id", ['id' => $id]);
     }
  
     public function createProduct($data) {
@@ -20,11 +20,18 @@ class ProductsDao extends BaseDao {
     }
  
     public function updateProduct($id, $data) {
-        return $this->update($id, $data); 
+        return $this->update($data, $id, "product_id"); // Use product_id as the key column
     }
  
     public function deleteProduct($id) {
-        return $this->delete($id); 
+        $stmt = $this->connection->prepare("DELETE FROM products WHERE product_id = :id");
+        $stmt->bindValue(':id', $id);
+        $stmt->execute();
+    }
+
+    // Override the base getById method to use product_id
+    public function getById($id) {
+        return $this->query_unique("SELECT * FROM products WHERE product_id = :id", ['id' => $id]);
     }
 
     public function getAvailableProducts() {

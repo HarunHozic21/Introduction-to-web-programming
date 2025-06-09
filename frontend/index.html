@@ -7,33 +7,19 @@
   <meta name="author" content="" />
   <title>KickVault</title>
 
-  <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="assets/img/kickvault-high-resolution-logo.png" />
 
-  <!-- Font Awesome & Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" rel="stylesheet" />
-
-  <!-- CSS -->
-  <link href="assets/css/styles.css" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" />
+  <link rel="stylesheet" href="https://cdn.datatables.net/2.0.8/css/dataTables.bootstrap4.min.css" />
+  
+  <link href="assets/css/styles.css" rel="stylesheet" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css">
-  <link rel="stylesheet" href="assets/css/spapp.css">
-
-  <!-- JS Libraries -->
-  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
-  <script src="assets/js/jquery.spapp.js"></script>
-  <script src="assets/js/jquery.spapp.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
-
-  <!-- App Scripts -->
-  <script src="utils/constants.js"></script>
-  <script src="utils/utils.js"></script>
-  <script src="utils/rest-client.js"></script>
-  <script src="assets/services/user-service.js"></script>
+  <link rel="stylesheet" href="assets/css/spapp.css" />
 </head>
+
 <body>
-  <!-- Navigation -->
   <nav class="navbar navbar-expand-lg navbar-light bg-light" role="navigation">
     <div class="container px-4 px-lg-5">
       <a class="navbar-brand" href="#view_1">
@@ -45,40 +31,63 @@
       </button>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0 ms-lg-4" id="tabs">
-          <!-- UserService.generateMenuItems will populate this -->
-        </ul>
+          </ul>
         <form class="d-flex">
           <a href="#cart" class="btn btn-outline-dark">
             <i class="bi-cart-fill me-1"></i>
-            Cart
-            <span class="badge bg-dark text-white ms-1 rounded-pill">0</span>
+              Cart
+          <span class="badge bg-danger ms-1" style="display: none;">0</span>
           </a>
         </form>
       </div>
     </div>
   </nav>
 
-  <!-- SPApp View Container -->
   <main id="spapp" style="margin-top: 6rem;">
     <section id="view_1" data-load="view_1.html"></section>
     <section id="about" data-load="about.html"></section>
     <section id="registration" data-load="registration.html"></section>
     <section id="login" data-load="login.html"></section>
-    <section id="product" data-load="product.html"></section>
+    <section id="product" data-load="product-detail.html"></section>
     <section id="cart" data-load="cart.html"></section>
     <section id="passReset" data-load="passReset.html"></section>
+    <section id="admin_panel" data-load="admin-panel.html"></section>
   </main>
 
-  <!-- Footer -->
   <footer class="py-5" style="background-color: #007bff;">
     <div class="container">
       <p class="m-0 text-center text-white">Copyright &copy; KickVault 2025</p>
     </div>
   </footer>
 
-  <!-- Init UserService -->
-  <script>
-    UserService.generateMenuItems();
-  </script>
+  <!-- Load jQuery and other libraries first -->
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.bundle.min.js"></script>
+  
+  <!-- Validation and UI libraries -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.3/jquery.validate.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.blockUI/2.70/jquery.blockUI.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+  
+  <!-- DataTables -->
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/2.0.8/js/dataTables.bootstrap4.min.js"></script>
+  
+  <!-- Load spapp framework -->
+  <script src="assets/js/jquery.spapp.js"></script> 
+  
+  <!-- Load utility scripts in order (these have redeclaration protection) -->
+  <script src="utils/constants.js"></script>
+  <script src="utils/utils.js"></script>
+  <script src="utils/rest-client.js"></script>
+  
+  <!-- Load service scripts -->
+  <script src="services/user-service.js"></script>
+  <script src="services/admin-panel.js"></script>
+  <script src="services/cart-service.js"></script>
+  
+  <!-- Load main application script -->
+  <script src="assets/js/custom.js"></script>
+
 </body>
 </html>
